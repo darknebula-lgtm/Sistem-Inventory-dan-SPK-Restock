@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laporan Barang Keluar</title>
+    <style>
+        body { font-family: sans-serif; }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid black;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 2px;
+            font-size: 12px;
+        }
+
+        h3 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .total {
+            margin-top: 15px;
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>TOKO ZAMZAM</h2>
+    <p>Jl. Contoh Alamat No. 123</p>
+    <p>Telp: 08123456789</p>
+</div>
+
+<h3>Laporan Barang Keluar</h3>
+
+<table>
+    <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Produk</th>
+        <th>Jumlah</th>
+    </tr>
+
+    @php $total = 0; @endphp
+
+    @foreach($data as $i => $d)
+    @php $total += $d->jumlah; @endphp
+    <tr>
+        <td>{{ $i+1 }}</td>
+        <td>{{ $d->tanggal_keluar }}</td>
+        <td>{{ $d->produk->nama_produk }}</td>
+        <td>{{ $d->jumlah }}</td>
+    </tr>
+    @endforeach
+
+</table>
+
+<div class="total">
+    Total Barang Keluar: {{ $total }}
+</div>
+
+</body>
+</html>
