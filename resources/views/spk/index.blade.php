@@ -3,270 +3,502 @@
 @section('content')
 
 <style>
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
+    .page-title {
+        margin: 0 0 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-h2 {
-    margin-bottom: 20px;
-    color: #0f766e;
-}
+    .alert-box {
+        margin-bottom: 16px;
+        padding: 12px 16px;
+        font-size: 14px;
+        color: #b42318;
+        background: #fde2e2;
+        border-radius: 14px;
+    }
 
-.form-bobot {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
+    /* FORM BOBOT */
+    .bobot-form {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 14px;
+        margin-bottom: 24px;
+    }
 
-input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100px;
-}
+    .bobot-item label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 600;
+    }
 
-button {
-    padding: 8px 15px;
-    background: #0f766e;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .form-input {
+        width: 120px;
+        box-sizing: border-box;
+        padding: 10px 14px;
+        font: inherit;
+        font-size: 14px;
+        color: inherit;
+        background: white;
+        border: 1px solid var(--line, #cfd8d5);
+        border-radius: 14px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-.alert {
-    background: #e74c3c;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-}
+    .form-input:focus {
+        border-color: var(--teal, #0f5c4d);
+        box-shadow: 0 0 0 3px rgba(15, 92, 77, 0.15);
+    }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
+    /* TOMBOL */
+    .btn-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 18px;
+        font: inherit;
+        font-size: 13px;
+        font-weight: bold;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+    }
 
-th {
-    background: #0f766e;
-    color: white;
-    padding: 10px;
-}
+    .btn-pill:hover {
+        opacity: 0.85;
+    }
 
-td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
+    .btn-main {
+        background: var(--teal, #0f5c4d);
+        color: white;
+    }
 
-.rank-1 { background: #e74c3c; color: white; }
-.rank-2 { background: #f39c12; color: white; }
-.rank-3 { background: #f1c40f; }
+    .btn-soft {
+        background: #dcf7ee;
+        color: #0f7a5a;
+    }
 
-.section-title {
-    margin-top: 30px;
-    margin-bottom: 10px;
-    color: #0f766e;
-}
+    .btn-step {
+        margin-top: 20px;
+    }
 
-/* MODAL */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-}
+    /* TABEL */
+    .table-wrap {
+        overflow-x: auto;
+    }
 
-.modal-content {
-    background: white;
-    margin: 5% auto;
-    padding: 20px;
-    width: 80%;
-    max-height: 80vh;
-    overflow: auto;
-    border-radius: 10px;
-}
+    .tbl {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-.modal-footer {
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
-}
+    .tbl th {
+        padding: 12px 10px;
+        font-size: 13px;
+        text-align: left;
+        border-bottom: 1px solid var(--line, #cfd8d5);
+    }
+
+    .tbl td {
+        padding: 12px 10px;
+        font-size: 14px;
+        border-bottom: 1px solid #eef2f1;
+    }
+
+    .tbl .num {
+        text-align: right;
+    }
+
+    .tbl td.empty-row {
+        padding: 30px;
+        text-align: center;
+        color: var(--muted, #7b8794);
+    }
+
+    /* RANKING */
+    .rank {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+        font-weight: bold;
+        background: #eef2f1;
+        border-radius: 50%;
+    }
+
+    .rank-1 {
+        background: #e24b4a;
+        color: white;
+    }
+
+    .rank-2 {
+        background: var(--orange, #ee7035);
+        color: white;
+    }
+
+    .rank-3 {
+        background: #f5c242;
+        color: #5a4300;
+    }
+
+    .pos {
+        color: #0f7a5a;
+    }
+
+    .neg {
+        color: #b42318;
+    }
+
+    /* MODAL */
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        padding: 4vh 16px;
+        background: rgba(15, 30, 25, 0.5);
+    }
+
+    .modal.open {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-box {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 900px;
+        max-height: 88vh;
+        background: white;
+        border-radius: 24px;
+    }
+
+    .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 20px 24px 12px;
+    }
+
+    .modal-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .modal-close {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: var(--muted, #7b8794);
+        background: none;
+        border: 1px solid var(--line, #cfd8d5);
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .modal-body {
+        flex: 1;
+        padding: 0 24px;
+        overflow: auto;
+    }
+
+    .modal-body h4 {
+        margin: 18px 0 6px;
+        font-size: 15px;
+    }
+
+    .modal-foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px 20px;
+    }
+
+    .step-count {
+        font-size: 13px;
+        color: var(--muted, #7b8794);
+    }
 </style>
 
-<div class="card">
+<div class="ui-card">
 
-<h2>SPK Restock (PROMETHEE)</h2>
+    <h2 class="page-title">SPK Restock (PROMETHEE)</h2>
 
-@if(session('error'))
-<div class="alert">{{ session('error') }}</div>
-@endif
+    @if(session('error'))
+        <div class="alert-box">{{ session('error') }}</div>
+    @endif
 
-<form method="GET" class="form-bobot">
-    <div>
-        Terjual<br>
-        <input type="number" step="0.1" name="terjual" value="{{ $bobot['terjual'] }}">
+    <!-- FORM BOBOT -->
+    <form method="GET" class="bobot-form">
+        <div class="bobot-item">
+            <label for="terjual">Terjual</label>
+            <input type="number" step="0.1" min="0" id="terjual" name="terjual"
+                   class="form-input" value="{{ $bobot['terjual'] }}">
+        </div>
+
+        <div class="bobot-item">
+            <label for="harga">Harga</label>
+            <input type="number" step="0.1" min="0" id="harga" name="harga"
+                   class="form-input" value="{{ $bobot['harga'] }}">
+        </div>
+
+        <div class="bobot-item">
+            <label for="stok">Stok</label>
+            <input type="number" step="0.1" min="0" id="stok" name="stok"
+                   class="form-input" value="{{ $bobot['stok'] }}">
+        </div>
+
+        <button type="submit" class="btn-pill btn-main">
+            <i class="ti ti-calculator"></i> Hitung
+        </button>
+    </form>
+
+    <!-- HASIL RANKING -->
+    <div class="table-wrap">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Ranking</th>
+                    <th>Produk</th>
+                    <th class="num">Terjual</th>
+                    <th class="num">Harga</th>
+                    <th class="num">Stok</th>
+                    <th class="num">Net Flow</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse($hasil as $h)
+                    <tr>
+                        <td>
+                            <span class="rank {{ $loop->iteration <= 3 ? 'rank-' . $loop->iteration : '' }}">
+                                {{ $loop->iteration }}
+                            </span>
+                        </td>
+                        <td>{{ $h['nama'] }}</td>
+                        <td class="num">{{ $h['terjual'] }}</td>
+                        <td class="num">{{ number_format($h['harga'], 0, ',', '.') }}</td>
+                        <td class="num">{{ $h['stok'] }}</td>
+                        <td class="num">
+                            <strong class="{{ $h['net'] >= 0 ? 'pos' : 'neg' }}">
+                                {{ round($h['net'], 3) }}
+                            </strong>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="empty-row">Belum ada produk untuk dihitung.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 
-    <div>
-        Harga<br>
-        <input type="number" step="0.1" name="harga" value="{{ $bobot['harga'] }}">
-    </div>
-
-    <div>
-        Stok<br>
-        <input type="number" step="0.1" name="stok" value="{{ $bobot['stok'] }}">
-    </div>
-
-    <div style="align-self:end;">
-        <button type="submit">Hitung</button>
-    </div>
-</form>
-
-<table>
-<tr>
-    <th>Ranking</th>
-    <th>Produk</th>
-    <th>Terjual</th>
-    <th>Harga</th>
-    <th>Stok</th>
-    <th>Net Flow</th>
-</tr>
-
-@foreach($hasil as $i => $h)
-<tr class="{{ $i == 0 ? 'rank-1' : ($i == 1 ? 'rank-2' : ($i == 2 ? 'rank-3' : '')) }}">
-    <td>{{ $i+1 }}</td>
-    <td>{{ $h['nama'] }}</td>
-    <td>{{ $h['terjual'] }}</td>
-    <td>{{ number_format($h['harga']) }}</td>
-    <td>{{ $h['stok'] }}</td>
-    <td><strong>{{ round($h['net'],3) }}</strong></td>
-</tr>
-@endforeach
-</table>
-
-<br>
-<button onclick="openModal()">Lihat Step Perhitungan</button>
+    <button type="button" class="btn-pill btn-soft btn-step" onclick="openModal()">
+        <i class="ti ti-list-details"></i> Lihat Step Perhitungan
+    </button>
 
 </div>
 
 {{-- ========================
      MODAL STEP
 ======================== --}}
-<div id="modalStep" class="modal">
-    <div class="modal-content">
+<div id="modalStep" class="modal" onclick="if (event.target === this) closeModal()">
+    <div class="modal-box">
 
-        <h3 id="stepTitle"></h3>
+        <div class="modal-head">
+            <h3 id="stepTitle" class="modal-title"></h3>
 
-        <div id="stepContent"></div>
+            <button type="button" class="modal-close" onclick="closeModal()" title="Tutup">
+                <i class="ti ti-x"></i>
+            </button>
+        </div>
 
-        <div class="modal-footer">
-            <button onclick="prevStep()">⬅ Prev</button>
-            <button onclick="nextStep()">Next ➡</button>
-            <button onclick="closeModal()">Tutup</button>
+        <div class="modal-body">
+
+            <!-- STEP 1 -->
+            <div class="step-panel" data-step="1" data-title="Step 1: Data Awal">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>Produk</th>
+                            <th class="num">Terjual</th>
+                            <th class="num">Harga</th>
+                            <th class="num">Stok</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($step['data_awal'] as $d)
+                            <tr>
+                                <td>{{ $d['nama'] }}</td>
+                                <td class="num">{{ $d['terjual'] }}</td>
+                                <td class="num">{{ number_format($d['harga'], 0, ',', '.') }}</td>
+                                <td class="num">{{ $d['stok'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-panel" data-step="2" data-title="Step 2: Normalisasi">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>Produk</th>
+                            <th class="num">Terjual</th>
+                            <th class="num">Harga</th>
+                            <th class="num">Stok</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($step['normalisasi'] as $d)
+                            <tr>
+                                <td>{{ $d['nama'] }}</td>
+                                <td class="num">{{ round($d['terjual_n'], 3) }}</td>
+                                <td class="num">{{ round($d['harga_n'], 3) }}</td>
+                                <td class="num">{{ round($d['stok_n'], 3) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step-panel" data-step="3" data-title="Step 3: Perbandingan">
+                @foreach($hasil as $h)
+                    <h4>{{ $h['nama'] }}</h4>
+
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Dibanding</th>
+                                <th class="num">A→B</th>
+                                <th class="num">B→A</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($h['detail'] as $d)
+                                <tr>
+                                    <td>{{ $d['dibanding'] }}</td>
+                                    <td class="num">{{ $d['pref_ab'] }}</td>
+                                    <td class="num">{{ $d['pref_ba'] }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endforeach
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="step-panel" data-step="4" data-title="Step 4-6: Flow & Ranking">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>Produk</th>
+                            <th class="num">Leaving</th>
+                            <th class="num">Entering</th>
+                            <th class="num">Net</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($hasil as $h)
+                            <tr>
+                                <td>{{ $h['nama'] }}</td>
+                                <td class="num">{{ round($h['leaving'], 3) }}</td>
+                                <td class="num">{{ round($h['entering'], 3) }}</td>
+                                <td class="num">{{ round($h['net'], 3) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="modal-foot">
+            <button type="button" id="btnPrev" class="btn-pill btn-soft" onclick="prevStep()">
+                <i class="ti ti-arrow-left"></i> Prev
+            </button>
+
+            <span id="stepCount" class="step-count"></span>
+
+            <button type="button" id="btnNext" class="btn-pill btn-main" onclick="nextStep()">
+                Next <i class="ti ti-arrow-right"></i>
+            </button>
         </div>
 
     </div>
 </div>
 
 <script>
-let step = 1;
+    let step = 1;
+    const totalStep = 4;
 
-function openModal() {
-    document.getElementById('modalStep').style.display = 'block';
-    showStep();
-}
+    const modal = document.getElementById('modalStep');
+    const stepTitle = document.getElementById('stepTitle');
+    const stepCount = document.getElementById('stepCount');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const panels = document.querySelectorAll('.step-panel');
 
-function closeModal() {
-    document.getElementById('modalStep').style.display = 'none';
-}
-
-function nextStep() {
-    if(step < 4) step++;
-    showStep();
-}
-
-function prevStep() {
-    if(step > 1) step--;
-    showStep();
-}
-
-function showStep() {
-    let title = document.getElementById('stepTitle');
-    let content = document.getElementById('stepContent');
-
-    if(step === 1){
-        title.innerText = "Step 1: Data Awal";
-        content.innerHTML = `
-        <table>
-        <tr><th>Produk</th><th>Terjual</th><th>Harga</th><th>Stok</th></tr>
-        @foreach($step['data_awal'] as $d)
-        <tr>
-            <td>{{ $d['nama'] }}</td>
-            <td>{{ $d['terjual'] }}</td>
-            <td>{{ $d['harga'] }}</td>
-            <td>{{ $d['stok'] }}</td>
-        </tr>
-        @endforeach
-        </table>`;
+    function openModal() {
+        step = 1;
+        modal.classList.add('open');
+        showStep();
     }
 
-    if(step === 2){
-        title.innerText = "Step 2: Normalisasi";
-        content.innerHTML = `
-        <table>
-        <tr><th>Produk</th><th>Terjual</th><th>Harga</th><th>Stok</th></tr>
-        @foreach($step['normalisasi'] as $d)
-        <tr>
-            <td>{{ $d['nama'] }}</td>
-            <td>{{ round($d['terjual_n'],3) }}</td>
-            <td>{{ round($d['harga_n'],3) }}</td>
-            <td>{{ round($d['stok_n'],3) }}</td>
-        </tr>
-        @endforeach
-        </table>`;
+    function closeModal() {
+        modal.classList.remove('open');
     }
 
-    if(step === 3){
-        title.innerText = "Step 3: Perbandingan";
-        content.innerHTML = `
-        @foreach($hasil as $h)
-        <h4>{{ $h['nama'] }}</h4>
-        <table>
-        <tr><th>Dibanding</th><th>A→B</th><th>B→A</th></tr>
-        @foreach($h['detail'] as $d)
-        <tr>
-            <td>{{ $d['dibanding'] }}</td>
-            <td>{{ $d['pref_ab'] }}</td>
-            <td>{{ $d['pref_ba'] }}</td>
-        </tr>
-        @endforeach
-        </table>
-        @endforeach`;
+    function nextStep() {
+        if (step < totalStep) {
+            step++;
+            showStep();
+        }
     }
 
-    if(step === 4){
-        title.innerText = "Step 4-6: Flow & Ranking";
-        content.innerHTML = `
-        <table>
-        <tr><th>Produk</th><th>Leaving</th><th>Entering</th><th>Net</th></tr>
-        @foreach($hasil as $h)
-        <tr>
-            <td>{{ $h['nama'] }}</td>
-            <td>{{ round($h['leaving'],3) }}</td>
-            <td>{{ round($h['entering'],3) }}</td>
-            <td>{{ round($h['net'],3) }}</td>
-        </tr>
-        @endforeach
-        </table>`;
+    function prevStep() {
+        if (step > 1) {
+            step--;
+            showStep();
+        }
     }
-}
+
+    function showStep() {
+        panels.forEach(function (panel) {
+            panel.hidden = Number(panel.dataset.step) !== step;
+
+            if (!panel.hidden) {
+                stepTitle.innerText = panel.dataset.title;
+            }
+        });
+
+        stepCount.innerText = step + ' / ' + totalStep;
+        btnPrev.style.visibility = step === 1 ? 'hidden' : 'visible';
+        btnNext.style.visibility = step === totalStep ? 'hidden' : 'visible';
+    }
+
+    // tekan Esc untuk menutup modal
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
 </script>
 
 @endsection

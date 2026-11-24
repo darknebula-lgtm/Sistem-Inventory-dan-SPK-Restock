@@ -3,46 +3,54 @@
 @section('content')
 
 <style>
-    .card {
+    .form-card {
         max-width: 500px;
-        margin: 50px auto; /* Menyeimbangkan posisi atas-bawah */
-        background: white;
+        margin: 20px auto;
         padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
-    h2 {
-        margin-bottom: 25px;
-        color: #0f766e;
+    .form-title {
+        margin: 0 0 25px;
+        font-size: 20px;
+        font-weight: bold;
         text-align: center;
-        font-weight: 700;
     }
 
     .form-group {
         margin-bottom: 20px;
     }
 
-    label {
+    .form-label {
         display: block;
         margin-bottom: 8px;
+        font-size: 14px;
         font-weight: 600;
-        color: #333;
     }
 
-    input {
+    .form-input {
         width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
+        box-sizing: border-box;
+        padding: 12px 16px;
+        font: inherit;
+        font-size: 14px;
+        color: inherit;
+        background: white;
+        border: 1px solid var(--line, #cfd8d5);
+        border-radius: 14px;
         outline: none;
-        box-sizing: border-box; /* Mengunci lebar agar tidak melebihi card */
-        transition: all 0.3s ease;
+        transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    input:focus {
-        border-color: #0f766e;
-        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15); /* Efek ring glow lembut */
+    .form-input:focus {
+        border-color: var(--teal, #0f5c4d);
+        box-shadow: 0 0 0 3px rgba(15, 92, 77, 0.15);
+    }
+
+    .field-error {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        color: #b42318;
     }
 
     /* CONTAINER UNTUK TOMBOL AGAR SEJAJAR */
@@ -52,55 +60,62 @@
         margin-top: 25px;
     }
 
-    .btn {
+    .btn-form {
+        flex: 1;
+        box-sizing: border-box;
         padding: 12px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
+        font: inherit;
+        font-size: 14px;
         font-weight: bold;
         text-align: center;
-        text-decoration: none; /* Menghapus garis bawah bawaan tag <a> */
-        flex: 1; /* Lebar tombol dibagi rata sama besar */
-        display: inline-block;
-        box-sizing: border-box;
-        transition: background 0.2s ease;
+        text-decoration: none;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s;
     }
 
-    /* 🔥 WARNA DISAMAKAN DENGAN HALAMAN CREATE (HIJAU TEAL) */
     .btn-update {
-        background: #0f766e;
+        background: var(--teal, #0f5c4d);
         color: white;
     }
 
     .btn-update:hover {
-        background: #0d5c58;
+        background: #0a4a3d;
     }
 
     .btn-kembali {
-        background: #e2e8f0;
+        background: #e9efed;
         color: #475569;
     }
 
     .btn-kembali:hover {
-        background: #cbd5e1;
+        background: #d8e2df;
     }
 </style>
 
-<div class="card">
-    <h2>Edit Kategori</h2>
+<div class="ui-card form-card">
+    <h2 class="form-title">Edit Kategori</h2>
 
     <form action="/kategori/{{ $data->id_kategori }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="form-group">
-            <label for="nama_kategori">Nama Kategori</label>
-            <input type="text" id="nama_kategori" name="nama_kategori" value="{{ $data->nama_kategori }}" required>
+            <label for="nama_kategori" class="form-label">Nama Kategori</label>
+            <input type="text" id="nama_kategori" name="nama_kategori"
+                   class="form-input"
+                   value="{{ old('nama_kategori', $data->nama_kategori) }}"
+                   required>
+
+            @error('nama_kategori')
+                <small class="field-error">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="btn-container">
-            <button type="submit" class="btn btn-update">Update</button>
-            <a href="/kategori" class="btn btn-kembali">Kembali</a>
+            <button type="submit" class="btn-form btn-update">Update</button>
+            <a href="/kategori" class="btn-form btn-kembali">Kembali</a>
         </div>
     </form>
 </div>

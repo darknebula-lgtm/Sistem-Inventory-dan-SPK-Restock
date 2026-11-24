@@ -3,109 +3,167 @@
 @section('content')
 
 <style>
-    .header {
+    .page-head {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
 
-    .btn {
-        padding: 8px 14px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-        color: white;
-        font-size: 14px;
-    }
-
-    .btn-tambah { background: #0f766e; }
-    .btn-hapus { background: #e74c3c; }
-
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-    }
-
-    h3 {
-        margin-bottom: 10px;
-        color: #0f766e;
-    }
-
-    .total {
+    .page-title {
+        margin: 0;
+        font-size: 20px;
         font-weight: bold;
-        margin-bottom: 10px;
-        color: #333;
     }
 
-    table {
+    .btn-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        font: inherit;
+        font-size: 13px;
+        text-decoration: none;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+    }
+
+    .btn-pill:hover {
+        opacity: 0.85;
+    }
+
+    .btn-tambah {
+        background: var(--teal, #0f5c4d);
+        color: white;
+    }
+
+    .group-card {
+        margin-bottom: 16px;
+    }
+
+    .group-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .group-date {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .group-date i {
+        font-size: 20px;
+        color: var(--teal, #0f5c4d);
+    }
+
+    .tbl {
         width: 100%;
         border-collapse: collapse;
     }
 
-    th {
-        background: #0f766e;
-        color: white;
-        padding: 10px;
+    .tbl th {
+        padding: 12px 10px;
+        font-size: 13px;
         text-align: left;
+        border-bottom: 1px solid var(--line, #cfd8d5);
     }
 
-    td {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
+    .tbl td {
+        padding: 14px 10px;
+        font-size: 14px;
+        border-bottom: 1px solid #eef2f1;
     }
 
-    tr:hover {
-        background: #f2f2f2;
+    .tbl tbody tr:last-child td {
+        border-bottom: none;
     }
 
-    form {
-        display: inline;
+    .tbl tbody tr:hover {
+        background: #f6f9f8;
+    }
+
+    .tbl .col-no {
+        width: 60px;
+    }
+
+    .tbl .num {
+        text-align: right;
+    }
+
+    .empty-card {
+        padding: 40px 22px;
+        text-align: center;
+        color: var(--muted, #7b8794);
     }
 </style>
 
-<div class="header">
-    <h2>Barang Masuk</h2>
-    <a href="/barang-masuk/create" class="btn btn-tambah">+ Tambah</a>
+<div class="page-head">
+    <h2 class="page-title">Barang Masuk</h2>
+
+    <a href="/barang-masuk/create" class="btn-pill btn-tambah">
+        <i class="ti ti-plus"></i> Tambah
+    </a>
 </div>
 
 @php
     $grouped = $data->sortByDesc('tanggal_masuk')->groupBy('tanggal_masuk');
 @endphp
 
-@foreach($grouped as $tanggal => $items)
+@forelse($grouped as $tanggal => $items)
 
-@php
-    $total = $items->sum('jumlah');
-@endphp
+    @php
+        $total = $items->sum('jumlah');
+    @endphp
 
-<div class="card">
+    <div class="ui-card group-card">
 
-    <h3>Tanggal: {{ $tanggal }}</h3>
-    <div class="total">Total Barang Masuk: {{ $total }}</div>
+        <div class="group-head">
+            <h3 class="group-date">
+                <i class="ti ti-calendar"></i>
+                {{ \Carbon\Carbon::parse($tanggal)->format('d M Y') }}
+            </h3>
 
-    <table>
-        <tr>
-            <th>No</th>
-            <th>Produk</th>
-            <th>Jumlah</th>
-        </tr>
+            <span class="ui-badge success">
+                Total masuk: {{ number_format($total, 0, ',', '.') }}
+            </span>
+        </div>
 
-        @foreach($items as $index => $d)
-        <tr>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $d->produk->nama_produk }}</td>
-            <td>{{ $d->jumlah }}</td>
-        </tr>
-        @endforeach
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th class="col-no">No</th>
+                    <th>Produk</th>
+                    <th class="num">Jumlah</th>
+                </tr>
+            </thead>
 
-    </table>
+            <tbody>
+                @foreach($items as $d)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $d->produk->nama_produk ?? '-' }}</td>
+                        <td class="num">{{ number_format($d->jumlah, 0, ',', '.') }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-</div>
-@endforeach
+    </div>
+
+@empty
+
+    <div class="ui-card empty-card">
+        Belum ada data barang masuk.
+    </div>
+
+@endforelse
 
 @endsection

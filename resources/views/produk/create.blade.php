@@ -3,104 +3,162 @@
 @section('content')
 
 <style>
-    .card {
+    .form-card {
         max-width: 600px;
-        margin: auto;
-        background: white;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        margin: 20px auto;
+        padding: 30px;
     }
 
-    h2 {
-        margin-bottom: 20px;
-        color: #0f766e;
+    .form-title {
+        margin: 0 0 25px;
+        font-size: 20px;
+        font-weight: bold;
         text-align: center;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     }
 
-    label {
+    .form-label {
         display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
     }
 
-    input, select {
+    .form-input {
         width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+        box-sizing: border-box;
+        padding: 12px 16px;
+        font: inherit;
+        font-size: 14px;
+        color: inherit;
+        background: white;
+        border: 1px solid var(--line, #cfd8d5);
+        border-radius: 14px;
         outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    input:focus, select:focus {
-        border-color: #0f766e;
+    .form-input:focus {
+        border-color: var(--teal, #0f5c4d);
+        box-shadow: 0 0 0 3px rgba(15, 92, 77, 0.15);
     }
 
-    .btn {
-        padding: 10px;
+    .field-error {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        color: #b42318;
+    }
+
+    /* CONTAINER UNTUK TOMBOL AGAR SEJAJAR */
+    .btn-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .btn-form {
+        flex: 1;
+        box-sizing: border-box;
+        padding: 12px;
+        font: inherit;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
         border: none;
-        border-radius: 5px;
+        border-radius: 999px;
         cursor: pointer;
-        width: 100%;
-        color: white;
+        transition: background 0.2s;
     }
 
     .btn-simpan {
-        background: #0f766e;
+        background: var(--teal, #0f5c4d);
+        color: white;
+    }
+
+    .btn-simpan:hover {
+        background: #0a4a3d;
     }
 
     .btn-kembali {
-        background: #7f8c8d;
-        margin-top: 10px;
-        display: block;
-        text-align: center;
-        text-decoration: none;
+        background: #e9efed;
+        color: #475569;
     }
 
-    .btn:hover {
-        opacity: 0.9;
+    .btn-kembali:hover {
+        background: #d8e2df;
     }
 </style>
 
-<div class="card">
-    <h2>Tambah Produk</h2>
+<div class="ui-card form-card">
+    <h2 class="form-title">Tambah Produk</h2>
 
     <form action="/produk" method="POST">
         @csrf
 
         <div class="form-group">
-            <label>Nama Produk</label>
-            <input type="text" name="nama_produk" required>
+            <label for="nama_produk" class="form-label">Nama Produk</label>
+            <input type="text" id="nama_produk" name="nama_produk"
+                   class="form-input"
+                   value="{{ old('nama_produk') }}"
+                   required>
+
+            @error('nama_produk')
+                <small class="field-error">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="form-group">
-            <label>Kategori</label>
-            <select name="id_kategori" required>
+            <label for="id_kategori" class="form-label">Kategori</label>
+            <select id="id_kategori" name="id_kategori" class="form-input" required>
                 <option value="">-- Pilih Kategori --</option>
                 @foreach($kategori as $k)
-                    <option value="{{ $k->id_kategori }}">
+                    <option value="{{ $k->id_kategori }}"
+                        {{ old('id_kategori') == $k->id_kategori ? 'selected' : '' }}>
                         {{ $k->nama_kategori }}
                     </option>
                 @endforeach
             </select>
+
+            @error('id_kategori')
+                <small class="field-error">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="form-group">
-            <label>Harga</label>
-            <input type="number" name="harga" required>
+            <label for="harga" class="form-label">Harga</label>
+            <input type="number" id="harga" name="harga"
+                   class="form-input"
+                   min="0"
+                   value="{{ old('harga') }}"
+                   required>
+
+            @error('harga')
+                <small class="field-error">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="form-group">
-            <label>Stok</label>
-            <input type="number" name="stok" required>
+            <label for="stok" class="form-label">Stok</label>
+            <input type="number" id="stok" name="stok"
+                   class="form-input"
+                   min="0"
+                   value="{{ old('stok') }}"
+                   required>
+
+            @error('stok')
+                <small class="field-error">{{ $message }}</small>
+            @enderror
         </div>
 
-        <button type="submit" class="btn btn-simpan">Simpan</button>
-        <a href="/produk" class="btn btn-kembali">Kembali</a>
+        <div class="btn-container">
+            <button type="submit" class="btn-form btn-simpan">Simpan</button>
+            <a href="/produk" class="btn-form btn-kembali">Kembali</a>
+        </div>
     </form>
 </div>
 

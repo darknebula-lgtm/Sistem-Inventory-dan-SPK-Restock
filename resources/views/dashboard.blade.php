@@ -3,69 +3,86 @@
 @section('content')
 
 <style>
-    h2 {
-        margin-bottom: 20px;
-        color: #0f766e;
+    .dash-top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+    .stat-card {
+        min-height: 130px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
     }
 
-    .cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-    }
-
-    .card-box {
-        padding: 20px;
-        border-radius: 10px;
-        color: white;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        transition: 0.3s;
-    }
-
-    .card-box:hover {
-        transform: translateY(-5px);
-    }
-
-    .card-box h3 {
-        margin: 0;
-        font-size: 16px;
-    }
-
-    .card-box p {
-        font-size: 28px;
-        margin-top: 10px;
+    .stat-number {
+        font-size: 30px;
         font-weight: bold;
+        line-height: 1.1;
     }
 
-    /* warna konsisten */
-    .green { background: #0f766e; }
-    .blue { background: #3498db; }
-    .orange { background: #f39c12; }
-    .red { background: #e74c3c; }
+    .stat-label {
+        margin-top: 6px;
+        font-size: 14px;
+        color: var(--muted, #7b8794);
+    }
+
+    .ui-card-accent .stat-label {
+        color: white;
+    }
+
+    @media (max-width: 900px) {
+        .dash-top {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
-<h2>Dashboard</h2>
+<div class="dash-top">
 
-<div class="cards">
-    <div class="card-box green">
-        <h3>Total Produk</h3>
-        <p>{{ $totalProduk }}</p>
+    <!-- KARTU STATISTIK -->
+    <div class="stat-grid">
+
+        <div class="ui-card ui-card-accent stat-card">
+            <div class="stat-number">
+                {{ number_format((int) $totalStok, 0, ',', '.') }}
+            </div>
+            <div class="stat-label">Total Stok</div>
+        </div>
+
+        <div class="ui-card stat-card">
+            <div class="stat-number">
+                {{ number_format((int) $barangMasuk, 0, ',', '.') }}
+            </div>
+            <div class="stat-label">Barang Masuk</div>
+        </div>
+
+        <div class="ui-card stat-card">
+            <div class="stat-number">
+                {{ number_format((int) $barangKeluar, 0, ',', '.') }}
+            </div>
+            <div class="stat-label">Barang Keluar</div>
+        </div>
+
+        <div class="ui-card stat-card">
+            <div class="stat-number">
+                {{ number_format((int) $totalProduk, 0, ',', '.') }}
+            </div>
+            <div class="stat-label">Total Produk</div>
+        </div>
+
     </div>
 
-    <div class="card-box blue">
-        <h3>Barang Masuk</h3>
-        <p>{{ $barangMasuk }}</p>
-    </div>
+    <!-- GRAFIK: langkah berikutnya -->
 
-    <div class="card-box orange">
-        <h3>Barang Keluar</h3>
-        <p>{{ $barangKeluar }}</p>
-    </div>
-
-    <div class="card-box red">
-        <h3>Total Stok</h3>
-        <p>{{ $totalStok }}</p>
-    </div>
 </div>
 
 @endsection
